@@ -1,12 +1,16 @@
 name: Upload JSON Files to OSS
 
 on:
-  push:
-    branches:
-      - main  # 替换为你的主分支名称
-    paths:
-      - 'data/**.json' # 替换为你的 JSON 文件所在路径，例如 'data/holidays/*.json'
-
+  workflow_call:
+    inputs:
+      ref:
+        description: 'The GitHub ref that triggered the workflow'
+        required: true
+        type: string
+      event_name:
+        description: 'The name of the event that triggered the workflow'
+        required: true
+        type: string
 jobs:
   upload_to_oss:
     runs-on: ubuntu-latest
@@ -33,3 +37,4 @@ env:
     OSS_BUCKET: your-bucket-name
     OSS_PATH: your-oss-path
     OSS_REGION: cn-hangzhou
+
