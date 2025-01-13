@@ -26,7 +26,8 @@ jobs:
 
       - name: Configure ossutil
         run: |
-          ossutil config -e "${{ env.OSS_ENDPOINT }}" -i "${{ env.OSS_ACCESS_KEY_ID }}" -k "${{ env.OSS_ACCESS_KEY_SECRET }}" -L  "CN"
+          ossutil config -e "${{ secrets.OSS_ENDPOINT }}" -i "${{ secrets.OSS_ACCESS_KEY_ID }}" -k "${{ secrets.OSS_ACCESS_KEY_SECRET }}" -L  "CN"
+
       - name: Upload JSON files to OSS
         run: |
           find data/ -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://${{ env.OSS_BUCKET }}/${{ env.OSS_PATH }}/ --acl public-read
@@ -36,7 +37,3 @@ jobs:
       OSS_BUCKET: test12341241
       OSS_PATH: log
       OSS_REGION: cn-hangzhou
-      OSS_ENDPOINT: "${{ secrets.OSS_ENDPOINT }}"
-      OSS_ACCESS_KEY_ID: "${{ secrets.OSS_ACCESS_KEY_ID }}"
-      OSS_ACCESS_KEY_SECRET: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
-     
