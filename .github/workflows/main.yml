@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 12 * * *"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,14 +29,18 @@ jobs:
       - name: Update(master)
         if: ${{ github.ref == 'refs/heads/master' && github.event_name != 'pull_request' }}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: coverage run -a ./scripts/update.py --release
       - name: Update
         if: ${{ !(github.ref == 'refs/heads/master' && github.event_name != 'pull_request') }}
         run: coverage run -a ./scripts/update.py
+
   upload_oss:
     needs: build
     uses: ./.github/workflows/upload_to_oss.yml
     with:
       ref: "${{ github.ref }}"
       event_name: "${{ github.event_name }}"
+      OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
+      OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+      OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
