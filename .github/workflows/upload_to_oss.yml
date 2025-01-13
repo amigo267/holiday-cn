@@ -23,6 +23,13 @@ jobs:
           wget https://gosspublic.alicdn.com/ossutil/1.7.13/ossutil64
           chmod +x ossutil64
           sudo mv ossutil64 /usr/local/bin/ossutil
+          ossutil version
+
+      - name: Test Secrets
+        run: |
+          echo "OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}"
+          echo "OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}"
+          echo "OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}"
 
       - name: Configure ossutil
         run: |
