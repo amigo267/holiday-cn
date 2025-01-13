@@ -53,13 +53,13 @@ jobs:
           
       - name: Test Secrets
         run: |
-          echo "OSS_ENDPOINT: ${{ inputs.OSS_ENDPOINT }}"
-          echo "OSS_ACCESS_KEY_ID: ${{ inputs.OSS_ACCESS_KEY_ID }}"
-          echo "OSS_ACCESS_KEY_SECRET: ${{ inputs.OSS_ACCESS_KEY_SECRET }}"
+          echo "OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}"
+          echo "OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}"
+          echo "OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}"
 
       - name: Configure ossutil
         run: |
-          ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" -L "CN"
+          ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" 
 
       - name: Upload JSON files to OSS
         run: |
