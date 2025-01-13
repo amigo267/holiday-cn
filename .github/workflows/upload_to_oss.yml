@@ -11,15 +11,28 @@ on:
         description: 'The name of the event that triggered the workflow'
         required: true
         type: string
+      OSS_ENDPOINT:
+        description: 'The endpoint for OSS'
+        required: true
+        type: string
+      OSS_ACCESS_KEY_ID:
+        description: 'The access key ID for OSS'
+        required: true
+        type: string
+      OSS_ACCESS_KEY_SECRET:
+        description: 'The access key secret for OSS'
+        required: true
+        type: string
+
 env:
     # 定义环境，存储桶名称等，这样可以方便修改
     OSS_BUCKET: test12341241
     OSS_PATH: log
     OSS_REGION: cn-hangzhou
-    OSS_ENDPOINT: "${{ secrets.OSS_ENDPOINT }}"
-    OSS_ACCESS_KEY_ID: "${{ secrets.OSS_ACCESS_KEY_ID }}"
-    OSS_ACCESS_KEY_SECRET: "${{ secrets.OSS_ACCESS_KEY_SECRET }}"
-    
+    OSS_ENDPOINT: "${{ inputs.OSS_ENDPOINT }}"
+    OSS_ACCESS_KEY_ID: "${{ inputs.OSS_ACCESS_KEY_ID }}"
+    OSS_ACCESS_KEY_SECRET: "${{ inputs.OSS_ACCESS_KEY_SECRET }}"
+
 jobs:
   upload_to_oss:
     runs-on: ubuntu-latest
@@ -33,19 +46,16 @@ jobs:
           chmod +x ossutil64
           sudo mv ossutil64 /usr/local/bin/ossutil
           
-
       - name: Test Secrets
         run: |
-          echo "OSS_ENDPOINT: $OSS_ENDPOINT"
-          echo "OSS_ACCESS_KEY_ID: $OSS_ACCESS_KEY_ID"
-          echo "OSS_ACCESS_KEY_SECRET: $OSS_ACCESS_KEY_SECRET"
+          echo "OSS_ENDPOINT: ${{ inputs.OSS_ENDPOINT }}"
+          echo "OSS_ACCESS_KEY_ID: ${{ inputs.OSS_ACCESS_KEY_ID }}"
+          echo "OSS_ACCESS_KEY_SECRET: ${{ inputs.OSS_ACCESS_KEY_SECRET }}"
 
       - name: Configure ossutil
         run: |
-          ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" -L  "CN"
+          ossutil config -e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET" -L "CN"
 
       - name: Upload JSON files to OSS
         run: |
           find data/ -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://$OSS_BUCKET/$OSS_PATH/ --acl public-read
-
-  
