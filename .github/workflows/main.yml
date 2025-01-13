@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload JSON files to OSS
         run: |
-          find data/ -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://$OSS_BUCKET/$OSS_PATH/ --acl public-read
+          find / -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://$OSS_BUCKET/$OSS_PATH/ --acl public-read
         
       # FIXME
       #- name: Report coverage
