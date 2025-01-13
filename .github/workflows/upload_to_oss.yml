@@ -23,7 +23,7 @@ jobs:
           wget https://gosspublic.alicdn.com/ossutil/1.7.13/ossutil64
           chmod +x ossutil64
           sudo mv ossutil64 /usr/local/bin/ossutil
-          ossutil version
+          
 
       - name: Test Secrets
         run: |
