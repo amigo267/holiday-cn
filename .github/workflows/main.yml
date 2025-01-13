@@ -35,7 +35,7 @@ jobs:
         run: coverage run -a ./scripts/update.py
   upload_oss:
     needs: build
-    uses: ./.github/workflows/Upload JSON Files to OSS.yml
+    uses: ./.github/workflows/upload_to_oss.yml
     with:
       ref: "${{ github.ref }}"
       event_name: "${{ github.event_name }}"
