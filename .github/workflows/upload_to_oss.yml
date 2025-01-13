@@ -30,11 +30,10 @@ jobs:
 
       - name: Upload JSON files to OSS
         run: |
-          find data/ -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://test12341241/log/ --acl public-read # 替换为你的存储桶名称和 OSS 路径
+          find data/ -name "*.json" -print0 | xargs -0 -I {} ossutil cp {} oss://${{ env.OSS_BUCKET }}/${{ env.OSS_PATH }}/ --acl public-read
 
-env:
-    # 定义环境，存储桶名称等，这样可以方便修改
-    OSS_BUCKET: your-bucket-name
-    OSS_PATH: your-oss-path
-    OSS_REGION: cn-hangzhou
-
+    env:
+      # 定义环境，存储桶名称等，这样可以方便修改
+      OSS_BUCKET: test12341241
+      OSS_PATH: log
+      OSS_REGION: cn-hangzhou
