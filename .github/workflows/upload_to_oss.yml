@@ -25,7 +25,7 @@ on:
         type: string
 
 env:
-    # 定义环境，存储桶名称等，这样可以方便修改
+    # Define environment variables for OSS configuration
     OSS_BUCKET: test12341241
     OSS_PATH: log
     OSS_REGION: cn-hangzhou
