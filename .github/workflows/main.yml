@@ -63,7 +63,8 @@ jobs:
 
       - name: Upload JSON files to OSS
         run: |
-          find / -name "*.json" -print0 | xargs -0 -I {} ossutil cp -f {}  oss://$OSS_BUCKET/$OSS_PATH/ --acl public-read
+          find / -regextype posix-extended -regex '.*/20(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])\.json' -print0 | xargs -0 -I {} ossutil cp -f {} oss://$OSS_BUCKET/$OSS_PATH/ --acl public-read
+
         
       # FIXME
       #- name: Report coverage
